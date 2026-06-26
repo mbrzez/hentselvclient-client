@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:hsws="urn:oio:skat:hentselv:ws:1.0.1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wssutil="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="HentSelvSendDataService" targetNamespace="urn:oio:skat:hentselv:ws:1.0.1">
+	<xs:annotation xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:documentation>Web servicen HentSelvSendData returnerer en række oplysninger af værdi for pengeinstitutters kreditevaluering af private låntagere. En bank kan tilgå servicen såfremt der foreligger et samtykke fra den enkelte borger, samt en videreanvendelsesaftale med SKAT</xs:documentation>
+		<xs:documentation>1.2</xs:documentation>
+		<xs:documentation>r28210</xs:documentation>
+	</xs:annotation>
+	<wsdl:types>
+		<xsd:schema targetNamespace="urn:oio:skat:hentselv:ws:1.0.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:include schemaLocation="urn/oio/skat/hentselv/ws/1_0_1/HentSelvSendDataInterface.xsd"/>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="HentSelvSendDataServiceRequest">
+		<wsdl:part name="Request" element="hsws:HentSelvSendData_I"/>
+	</wsdl:message>
+	<wsdl:message name="HentSelvSendDataServiceResponse">
+		<wsdl:part name="Response" element="hsws:HentSelvSendData_O"/>
+	</wsdl:message>
+	<wsdl:portType name="HentSelvSendDataServicePortType">
+		<wsdl:operation name="getHentSelvSendData">
+			<wsdl:input message="hsws:HentSelvSendDataServiceRequest"/>
+			<wsdl:output message="hsws:HentSelvSendDataServiceResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="HentSelvSendDataServiceBinding" type="hsws:HentSelvSendDataServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsp:PolicyReference URI="#Wssp1.2-2007-Wss1.1-X509-Basic256Sha256Rsa15.xml"/>
+		<wsp:PolicyReference URI="#Wssp1.2-2007-EncryptBody.xml"/>
+		<wsp:PolicyReference URI="#Wssp1.2-2007-SignBody.xml"/>
+		<wsdl:operation name="getHentSelvSendData">
+			<soap:operation soapAction="getHentSelvSendData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="HentSelvSendDataService">
+		<wsdl:port name="HentSelvSendDataServicePort" binding="hsws:HentSelvSendDataServiceBinding">
+			<soap:address location="https://samtykke.demo.skat.dk/hentselv/services/HentSelvSendDataService"/>
+		</wsdl:port>
+	</wsdl:service>
+	<wsp:UsingPolicy wssutil:Required="true"/>
+	<wsp:Policy wssutil:Id="Wssp1.2-2007-Wss1.1-X509-Basic256Sha256Rsa15.xml">
+		<ns0:AsymmetricBinding xmlns:ns0="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+			<wsp:Policy>
+				<ns0:InitiatorToken>
+					<wsp:Policy>
+						<ns0:X509Token ns0:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+							<wsp:Policy>
+								<ns0:RequireThumbprintReference/>
+								<ns0:WssX509V3Token11/>
+							</wsp:Policy>
+						</ns0:X509Token>
+					</wsp:Policy>
+				</ns0:InitiatorToken>
+				<ns0:RecipientToken>
+					<wsp:Policy>
+						<ns0:X509Token ns0:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never">
+							<wsp:Policy>
+								<ns0:RequireThumbprintReference/>
+								<ns0:WssX509V3Token11/>
+							</wsp:Policy>
+						</ns0:X509Token>
+					</wsp:Policy>
+				</ns0:RecipientToken>
+				<ns0:AlgorithmSuite>
+					<wsp:Policy>
+						<ns0:Basic256Sha256Rsa15/>
+					</wsp:Policy>
+				</ns0:AlgorithmSuite>
+				<ns0:Layout>
+					<wsp:Policy>
+						<ns0:Lax/>
+					</wsp:Policy>
+				</ns0:Layout>
+				<ns0:IncludeTimestamp/>
+				<ns0:ProtectTokens/>
+				<ns0:OnlySignEntireHeadersAndBody/>
+			</wsp:Policy>
+		</ns0:AsymmetricBinding>
+		<ns0:Wss11 xmlns:ns0="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+			<wsp:Policy>
+				<ns0:MustSupportRefKeyIdentifier/>
+				<ns0:MustSupportRefIssuerSerial/>
+				<ns0:MustSupportRefThumbprint/>
+				<ns0:MustSupportRefEncryptedKey/>
+				<ns0:RequireSignatureConfirmation/>
+			</wsp:Policy>
+		</ns0:Wss11>
+	</wsp:Policy>
+	<wsp:Policy wssutil:Id="Wssp1.2-2007-EncryptBody.xml">
+		<ns0:EncryptedParts xmlns:ns0="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+			<ns0:Body/>
+		</ns0:EncryptedParts>
+	</wsp:Policy>
+	<wsp:Policy wssutil:Id="Wssp1.2-2007-SignBody.xml">
+		<ns0:SignedParts xmlns:ns0="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+			<ns0:Body/>
+		</ns0:SignedParts>
+	</wsp:Policy>
+</wsdl:definitions>

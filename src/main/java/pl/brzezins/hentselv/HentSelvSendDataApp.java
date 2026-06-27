@@ -1,13 +1,13 @@
-package pl.brzezins.hentselvsenddata;
+package pl.brzezins.hentselv;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HentselvsenddataApplication {
+public class HentSelvSendDataApp {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HentselvsenddataApplication.class, args);
+		SpringApplication.run(HentSelvSendDataApp.class, args);
 	}
 
 }

@@ -1,27 +1,34 @@
 server:
-  port: 18080
+  port: 8080
 
 hentselv:
   client:
-    address: http://localhost:18080/services/HentSelvSendDataService
+    address: http://localhost:8080/services/HentSelvSendDataService
     wsdl-location: classpath:api/HentSelvSendDataService.wsdl
     ws-security:
-      key-store-location: classpath:cert/client.p12
-      key-store-type: PKCS12
-      key-store-password: changeit
-      private-key-alias: client
-      private-key-password: changeit
-      encryption-certificate-alias: server-cert
-
+      keystore:
+        location: classpath:cert/client-keystore.p12
+        type: PKCS12
+        password: changeit
+        alias: client
+      truststore:
+        location: classpath:cert/client-truststore.p12
+        type: PKCS12
+        password: changeit
+        alias: server-cert
   service:
     wsdl-location: classpath:api/HentSelvSendDataService.wsdl
     ws-security:
-      key-store-location: classpath:cert/server.p12
-      key-store-type: PKCS12
-      key-store-password: changeit
-      private-key-alias: server
-      private-key-password: changeit
-      encryption-certificate-alias: client-cert
+      keystore:
+        location: classpath:cert/server-keystore.p12
+        type: PKCS12
+        password: changeit
+        alias: server
+      truststore:
+        location: classpath:cert/server-truststore.p12
+        type: PKCS12
+        password: changeit
+        alias: client-cert
 
 logging:
   level:

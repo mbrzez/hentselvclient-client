@@ -17,7 +17,6 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class HentSelvClientWsSecurityConfigurer {
-
     private final HentSelvClientProperties clientProperties;
     private final CallbackHandler passwordCallbackHandler;
 
@@ -28,8 +27,7 @@ public class HentSelvClientWsSecurityConfigurer {
     }
 
     private void configureAddress(HentSelvSendDataServicePortType port) {
-        BindingProvider bindingProvider = (BindingProvider) port;
-
+        BindingProvider bindingProvider = (BindingProvider)port;
         bindingProvider.getRequestContext().put(
                 BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
                 clientProperties.address()
@@ -43,8 +41,8 @@ public class HentSelvClientWsSecurityConfigurer {
         BindingProvider bindingProvider = (BindingProvider) port;
         Map<String, Object> context = bindingProvider.getRequestContext();
 
-        context.put(SecurityConstants.SIGNATURE_USERNAME, wsSecurity.privateKeyAlias());
-        context.put(SecurityConstants.ENCRYPT_USERNAME, wsSecurity.encryptionCertificateAlias());
+        context.put(SecurityConstants.SIGNATURE_USERNAME, wsSecurity.keystore().alias());
+        context.put(SecurityConstants.ENCRYPT_USERNAME, wsSecurity.truststore().alias());
         context.put(SecurityConstants.SIGNATURE_CRYPTO, clientCrypto);
         context.put(SecurityConstants.ENCRYPT_CRYPTO, clientCrypto);
         context.put(SecurityConstants.CALLBACK_HANDLER, passwordCallbackHandler);

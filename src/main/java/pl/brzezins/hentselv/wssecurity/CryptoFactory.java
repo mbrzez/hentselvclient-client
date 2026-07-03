@@ -7,48 +7,66 @@ import org.apache.wss4j.common.crypto.Merlin;
 
 import java.io.InputStream;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CryptoFactory {
 
-    public static Crypto create(WsSecurityProperties party) {
+    public static Crypto create(WsSecurityProperties properties) {
         try {
-            return createCrypto(party);
+            return createCrypto(properties);
         } catch (Exception e) {
             throw new IllegalArgumentException("Failed to create Crypto instance", e);
         }
     }
 
-    private static Crypto createCrypto(WsSecurityProperties party) throws Exception {
-        KeyStore keyStore = KeyStore.getInstance(party.keyStoreType());
+    private static Crypto createCrypto(WsSecurityProperties properties) throws Exception {
+        KeyStore keyStore = loadKeyStore(properties.keystore());
+        KeyStore trustStore = loadKeyStore(properties.truststore());
 
-        try (InputStream input = party.keyStoreLocation().getInputStream()) {
-            keyStore.load(input, party.keyStorePassword().toCharArray());
-        }
-
-        validateKeyStore(keyStore, party);
+        validateKeyStore(keyStore, properties.keystore());
+        validateTrustStore(trustStore, properties.truststore());
 
         Merlin crypto = new Merlin();
 
         crypto.setKeyStore(keyStore);
-        crypto.setTrustStore(keyStore);
-        crypto.setDefaultX509Identifier(party.privateKeyAlias());
+        crypto.setTrustStore(trustStore);
+        crypto.setDefaultX509Identifier(properties.keystore().alias());
 
         return crypto;
     }
 
-    private static void validateKeyStore(KeyStore keyStore, WsSecurityProperties party) throws Exception {
-        String privateKeyAlias = party.privateKeyAlias();
-        String encryptionCertificateAlias = party.encryptionCertificateAlias();
+    private static KeyStore loadKeyStore(WsStore store) throws Exception {
+        KeyStore keyStore = KeyStore.getInstance(store.type());
 
-        if (!keyStore.containsAlias(privateKeyAlias)) {
-            throw new IllegalStateException("Keystore does not contain private key alias: " + privateKeyAlias);
-        } else if (!keyStore.isKeyEntry(privateKeyAlias)) {
-            throw new IllegalStateException("Alias is not a private key entry: " + privateKeyAlias);
-        } else if (!keyStore.containsAlias(encryptionCertificateAlias)) {
-            throw new IllegalStateException("Keystore does not contain certificate alias: " + encryptionCertificateAlias);
-        } else if (keyStore.getCertificate(encryptionCertificateAlias) == null) {
-            throw new IllegalStateException("Alias does not contain certificate: " + encryptionCertificateAlias);
+        try (InputStream input = store.location().getInputStream()) {
+            keyStore.load(input, store.password().toCharArray());
+        }
+
+        return keyStore;
+    }
+
+    private static void validateKeyStore(KeyStore keyStore, WsStore wsStore) throws KeyStoreException {
+        String alias = wsStore.alias();
+
+        if (!keyStore.containsAlias(alias)) {
+            throw new IllegalStateException("Keystore does not contain alias: " + alias);
+        } else if (keyStore.getCertificate(alias) == null) {
+            throw new IllegalStateException("Keystore alias does not contain certificate: " + alias);
+        } else if (!keyStore.isKeyEntry(alias)) {
+            throw new IllegalStateException("Keystore alias is not a private key entry: " + alias);
+        }
+    }
+
+    private static void validateTrustStore(KeyStore trustStore, WsStore wsStore) throws Exception {
+        String alias = wsStore.alias();
+
+        if (!trustStore.containsAlias(alias)) {
+            throw new IllegalStateException("Truststore does not contain alias: " + alias);
+        } else if (trustStore.getCertificate(alias) == null) {
+            throw new IllegalStateException("Truststore alias does not contain certificate: " + alias);
+        } else if (trustStore.isKeyEntry(alias)) {
+            throw new IllegalStateException("Truststore alias should not be a private key entry: " + alias);
         }
     }
 }

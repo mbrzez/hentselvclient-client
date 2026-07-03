@@ -16,7 +16,6 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class HentSelvServiceWsSecurityConfigurer {
-
     private final HentSelvServiceProperties serviceProperties;
     private final CallbackHandler passwordCallbackHandler;
 
@@ -33,8 +32,8 @@ public class HentSelvServiceWsSecurityConfigurer {
         Crypto serviceCrypto = CryptoFactory.create(wsSecurityProperties);
 
         Map<String, Object> properties = new HashMap<>();
-        properties.put(SecurityConstants.SIGNATURE_USERNAME, wsSecurityProperties.privateKeyAlias());
-        properties.put(SecurityConstants.ENCRYPT_USERNAME, wsSecurityProperties.encryptionCertificateAlias());
+        properties.put(SecurityConstants.SIGNATURE_USERNAME, wsSecurityProperties.keystore().alias());
+        properties.put(SecurityConstants.ENCRYPT_USERNAME, wsSecurityProperties.truststore().alias());
         properties.put(SecurityConstants.SIGNATURE_CRYPTO, serviceCrypto);
         properties.put(SecurityConstants.ENCRYPT_CRYPTO, serviceCrypto);
         properties.put(SecurityConstants.CALLBACK_HANDLER, passwordCallbackHandler);

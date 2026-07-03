@@ -7,25 +7,23 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.brzezins.hentselv.wssecurity.PasswordCallbackHandler;
 import pl.brzezins.hentselv.wssecurity.WsSecurityConstants;
-import pl.brzezins.hentselv.wssecurity.WsSecurityProperties;
+import pl.brzezins.hentselv.wssecurity.WsStore;
 
 import javax.security.auth.callback.CallbackHandler;
 import java.io.IOException;
 import java.net.URL;
 
+import static pl.brzezins.hentselv.wssecurity.WsSecurityConstants.PORT_NAME;
+
 @Configuration
 @EnableConfigurationProperties(HentSelvClientProperties.class)
 public class HentSelvClientConfig {
-
     @Bean
     public HentSelvSendDataClient hentSelvSendDataClient(HentSelvClientProperties clientProperties,
             HentSelvClientWsSecurityConfigurer configurer) throws IOException {
-
         URL url = clientProperties.wsdlLocation().getURL();
         HentSelvSendDataService service = new HentSelvSendDataService(url, WsSecurityConstants.SERVICE_NAME);
-        HentSelvSendDataServicePortType port = service.getPort(
-                WsSecurityConstants.PORT_NAME,
-                HentSelvSendDataServicePortType.class);
+        HentSelvSendDataServicePortType port = service.getPort(PORT_NAME, HentSelvSendDataServicePortType.class);
         configurer.configure(port);
 
         return new HentSelvSendDataClient(port);
@@ -39,9 +37,8 @@ public class HentSelvClientConfig {
 
     @Bean
     public CallbackHandler clientPasswordCallbackHandler(HentSelvClientProperties properties) {
-        WsSecurityProperties wsSecurity = properties.wsSecurity();
-
-        return new PasswordCallbackHandler(wsSecurity.privateKeyAlias(), wsSecurity.privateKeyPassword());
+        WsStore wsStore = properties.wsSecurity().keystore();
+        return new PasswordCallbackHandler(wsStore.alias(), wsStore.password());
     }
 
 }

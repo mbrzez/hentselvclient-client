@@ -10,8 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import pl.brzezins.hentselv.client.HentSelvSendDataClient;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class HentSelvSendDataClientIntegrationTest {
 
     @Autowired
@@ -19,10 +19,13 @@ class HentSelvSendDataClientIntegrationTest {
 
     @Test
     void shouldCallLocalSoapServiceWithWsSecurity() {
+        // given
         HentSelvSendDataIType request = new HentSelvSendDataIType();
 
+        // when
         HentSelvSendDataOType response = client.getHentSelvSendData(request);
 
+        // then
         assertThat(response).isNotNull();
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.brzezins.hentselv.wssecurity.PasswordCallbackHandler;
-import pl.brzezins.hentselv.wssecurity.WsSecurityProperties;
+import pl.brzezins.hentselv.wssecurity.WsStore;
 
 import javax.security.auth.callback.CallbackHandler;
 import java.io.IOException;
@@ -15,7 +15,6 @@ import java.io.IOException;
 @Configuration
 @EnableConfigurationProperties(HentSelvServiceProperties.class)
 public class HentSelvServiceConfig {
-
     @Bean
     public Endpoint hentSelvSendDataEndpoint(Bus bus,
                                              HentSelvSendDataService service,
@@ -39,12 +38,8 @@ public class HentSelvServiceConfig {
 
     @Bean
     public CallbackHandler servicePasswordCallbackHandler(HentSelvServiceProperties properties) {
-        WsSecurityProperties securityProperties = properties.wsSecurity();
-
-        return new PasswordCallbackHandler(
-                securityProperties.privateKeyAlias(),
-                securityProperties.privateKeyPassword()
-        );
+        WsStore wsStore = properties.wsSecurity().keystore();
+        return new PasswordCallbackHandler(wsStore.alias(), wsStore.password());
     }
 
 }

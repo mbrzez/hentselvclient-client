@@ -1,0 +1,29 @@
+server:
+  port: 18080
+
+hentselv:
+  client:
+    address: http://localhost:18080/services/HentSelvSendDataService
+    wsdl-location: classpath:api/HentSelvSendDataService.wsdl
+    ws-security:
+      key-store-location: classpath:cert/client.p12
+      key-store-type: PKCS12
+      key-store-password: changeit
+      private-key-alias: client
+      private-key-password: changeit
+      encryption-certificate-alias: server-cert
+
+  service:
+    wsdl-location: classpath:api/HentSelvSendDataService.wsdl
+    ws-security:
+      key-store-location: classpath:cert/server.p12
+      key-store-type: PKCS12
+      key-store-password: changeit
+      private-key-alias: server
+      private-key-password: changeit
+      encryption-certificate-alias: client-cert
+
+logging:
+  level:
+    org.apache.cxf.services: INFO
+    org.apache.cxf.ext.logging: INFO

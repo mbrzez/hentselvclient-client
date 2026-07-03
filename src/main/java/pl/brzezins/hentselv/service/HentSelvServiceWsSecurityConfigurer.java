@@ -10,6 +10,7 @@ import pl.brzezins.hentselv.wssecurity.WsSecurityConstants;
 import pl.brzezins.hentselv.wssecurity.WsSecurityProperties;
 
 import javax.security.auth.callback.CallbackHandler;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,10 +20,10 @@ public class HentSelvServiceWsSecurityConfigurer {
     private final HentSelvServiceProperties serviceProperties;
     private final CallbackHandler passwordCallbackHandler;
 
-    public void configure(EndpointImpl endpoint) {
+    public void configure(EndpointImpl endpoint) throws IOException {
         endpoint.setServiceName(WsSecurityConstants.SERVICE_NAME);
         endpoint.setEndpointName(WsSecurityConstants.PORT_NAME);
-        endpoint.setWsdlLocation(serviceProperties.wsdlLocation());
+        endpoint.setWsdlLocation(serviceProperties.wsdlLocation().getURL().toExternalForm());
         endpoint.setProperties(createWsSecurityProperties());
         endpoint.publish("/HentSelvSendDataService");
     }

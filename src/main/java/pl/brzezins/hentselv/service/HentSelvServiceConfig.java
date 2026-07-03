@@ -10,6 +10,7 @@ import pl.brzezins.hentselv.wssecurity.PasswordCallbackHandler;
 import pl.brzezins.hentselv.wssecurity.WsSecurityProperties;
 
 import javax.security.auth.callback.CallbackHandler;
+import java.io.IOException;
 
 @Configuration
 @EnableConfigurationProperties(HentSelvServiceProperties.class)
@@ -18,7 +19,7 @@ public class HentSelvServiceConfig {
     @Bean
     public Endpoint hentSelvSendDataEndpoint(Bus bus,
                                              HentSelvSendDataService service,
-                                             HentSelvServiceWsSecurityConfigurer configurer) {
+                                             HentSelvServiceWsSecurityConfigurer configurer) throws IOException {
         EndpointImpl endpoint = new EndpointImpl(bus, service);
         configurer.configure(endpoint);
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:hsws="urn:oio:skat:hentselv:ws:1.0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:oio:skat:hentselv:ws:1.0.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" xmlns:hentselv="urn:oio:skat:hentselv:1.0.0" xmlns:cvr="http://rep.oio.dk/cvr.dk/xml/schemas/2005/03/22/" xmlns:hentselv1="urn:oio:skat:hentselv:1.0.1" xmlns:kontekst="http://rep.oio.dk/skat.dk/basis/kontekst/xml/schemas/2006/09/01/" xml:lang="DA">
+	<xs:annotation>
+		<xs:documentation/>
+	</xs:annotation>
+	<xs:import namespace="http://rep.oio.dk/skat.dk/basis/kontekst/xml/schemas/2006/09/01/" schemaLocation="../../../../../../skat_dk/basis/kontekst/xml/schemas/2006/09/01/HovedOplysninger.xsd"/><xs:import namespace="urn:oio:skat:hentselv:1.0.1" schemaLocation="../../1_0_1/KlientplatformTypeKode.xsd"/><xs:import namespace="urn:oio:skat:hentselv:1.0.1" schemaLocation="../../1_0_1/SprogKode.xsd"/><xs:import namespace="urn:oio:skat:hentselv:1.0.0" schemaLocation="../../1_0_0/RetursvarURLNavn.xsd"/><xs:import namespace="urn:oio:skat:hentselv:1.0.0" schemaLocation="../../1_0_0/SamtykkeKildeTekst.xsd"/><xs:import namespace="urn:oio:skat:hentselv:1.0.0" schemaLocation="../../1_0_0/SamtykkeAarsagIdentifikator.xsd"/><xs:import namespace="urn:oio:skat:hentselv:1.0.0" schemaLocation="../../1_0_0/SamtykkeAarsagKode.xsd"/><xs:import namespace="http://rep.oio.dk/cvr.dk/xml/schemas/2005/03/22/" schemaLocation="../../../../../../cvr_dk/xml/schemas/2005/03/22/CVRnumberIdentifier.xsd"/><xs:import namespace="urn:oio:skat:hentselv:1.0.0" schemaLocation="../../1_0_0/VidereanvendelseAftaleIdentifikator.xsd"/><xs:element name="PersonSamtykkeOpret_I" type="hsws:PersonSamtykkeOpret_IType">
+	</xs:element>
+	<xs:complexType name="PersonSamtykkeOpret_IType">
+		<xs:sequence>
+			<xs:element ref="kontekst:HovedOplysninger"/>
+			<xs:element name="PersonSamtykkeValg">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PengeinstitutSamtykke">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SamtykkeInformation">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element ref="cvr:CVRnumberIdentifier"/>
+												<xs:element ref="hentselv:VidereanvendelseAftaleIdentifikator"/>
+												<xs:element ref="hentselv:SamtykkeAarsagKode"/>
+												<xs:element ref="hentselv:SamtykkeAarsagIdentifikator"/>
+												<xs:element ref="hentselv:SamtykkeKildeTekst"/>
+												<xs:element ref="hentselv:RetursvarURLNavn"/>
+												<xs:element ref="hentselv1:SprogKode" minOccurs="0"/>
+												<xs:element ref="hentselv1:KlientplatformTypeKode" minOccurs="0"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

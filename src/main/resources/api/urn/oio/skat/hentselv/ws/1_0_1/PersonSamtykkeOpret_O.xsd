@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:hsws="urn:oio:skat:hentselv:ws:1.0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:oio:skat:hentselv:ws:1.0.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" xmlns:core="http://rep.oio.dk/cpr.dk/xml/schemas/core/2005/03/18/" xmlns:hentselv="urn:oio:skat:hentselv:1.0.0" xmlns:kontekst="http://rep.oio.dk/skat.dk/basis/kontekst/xml/schemas/2006/09/01/" xml:lang="DA">
+	<xs:annotation>
+		<xs:documentation/>
+	</xs:annotation>
+	<xs:import namespace="http://rep.oio.dk/skat.dk/basis/kontekst/xml/schemas/2006/09/01/" schemaLocation="../../../../../../skat_dk/basis/kontekst/xml/schemas/2006/09/01/HovedOplysningerSvar.xsd"/><xs:import namespace="urn:oio:skat:hentselv:1.0.0" schemaLocation="../../1_0_0/ReturKodeReference.xsd"/><xs:import namespace="urn:oio:skat:hentselv:1.0.0" schemaLocation="../../1_0_0/ReturKodeGruppeTekst.xsd"/><xs:import namespace="urn:oio:skat:hentselv:1.0.0" schemaLocation="../../1_0_0/ReturKodeBeskrivelseTekst.xsd"/><xs:import namespace="urn:oio:skat:hentselv:1.0.0" schemaLocation="../../1_0_0/ReturKode.xsd"/><xs:import namespace="urn:oio:skat:hentselv:1.0.0" schemaLocation="../../1_0_0/RetursvarURLNavn.xsd"/><xs:import namespace="urn:oio:skat:hentselv:1.0.0" schemaLocation="../../1_0_0/SamtykkeAarsagIdentifikator.xsd"/><xs:import namespace="urn:oio:skat:hentselv:1.0.0" schemaLocation="../../1_0_0/SamtykkeAarsagKode.xsd"/><xs:import namespace="http://rep.oio.dk/cpr.dk/xml/schemas/core/2005/03/18/" schemaLocation="../../../../../../cpr_dk/xml/schemas/core/2005/03/18/PersonCivilRegistrationIdentifier.xsd"/><xs:element name="PersonSamtykkeOpret_O" type="hsws:PersonSamtykkeOpret_OType">
+	</xs:element>
+	<xs:complexType name="PersonSamtykkeOpret_OType">
+		<xs:sequence>
+			<xs:element ref="kontekst:HovedOplysningerSvar"/>
+			<xs:element name="PersonSamtykkeValg" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PengeinstitutSamtykke">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SamtykkeInformation">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element ref="hentselv:ReturKode"/>
+												<xs:element ref="hentselv:ReturKodeBeskrivelseTekst"/>
+												<xs:element ref="hentselv:ReturKodeGruppeTekst"/>
+												<xs:element ref="hentselv:ReturKodeReference"/>
+												<xs:element ref="hentselv:RetursvarURLNavn"/>
+												<xs:element ref="core:PersonCivilRegistrationIdentifier"/>
+												<xs:element ref="hentselv:SamtykkeAarsagKode"/>
+												<xs:element ref="hentselv:SamtykkeAarsagIdentifikator"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

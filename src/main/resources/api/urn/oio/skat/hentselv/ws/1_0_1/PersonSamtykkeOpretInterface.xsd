@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:hsws="urn:oio:skat:hentselv:ws:1.0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:oio:skat:hentselv:ws:1.0.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" xml:lang="DA">
+	<xs:include schemaLocation="PersonSamtykkeOpret_I.xsd"/>
+	<xs:include schemaLocation="PersonSamtykkeOpret_O.xsd"/>
+	<xs:element name="PersonSamtykkeOpretInterface" type="hsws:PersonSamtykkeOpretInterfaceType"/>
+	<xs:complexType name="PersonSamtykkeOpretInterfaceType">
+		<xs:choice>
+			<xs:element ref="hsws:PersonSamtykkeOpret_I"/>
+			<xs:element ref="hsws:PersonSamtykkeOpret_O"/>
+		</xs:choice>
+	</xs:complexType>
+</xs:schema>
